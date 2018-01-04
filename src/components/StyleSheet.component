@@ -1,0 +1,24 @@
+<apex:component access="global">
+        <style type="text/css">
+        
+            h2 {
+                color:  #000000;
+                text-align: justify;
+                text-decoration: underline;
+                text-transform: capitalize;
+                font-weight:  bold;
+            }
+            h3 {
+                color:  #3399FF;
+                text-decoration: underline;
+                text-align: justify;
+                font-weight:  lighter;
+            }
+            h4 {
+                color:  #000000;
+                text-align: justify;
+                font-weight:  lighter;
+            }
+        
+        </style>
+</apex:component>

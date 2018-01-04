@@ -1,0 +1,21 @@
+<apex:page Controller="LibraryPagesController">
+	<apex:form id="frm">
+		
+		<apex:pageBlock id="pb1">
+			<apex:pageBlockSection id="pbs1" columns="3">
+				<apex:commandButton value="Login" action="{!showLoginBlock}" rerender="pb1" />
+				<apex:commandButton value="Register" action="{!showRegisterationBlock}" rerender="pb1" />
+			</apex:pageBlockSection>
+
+    		<apex:pageBlockSection title="Login" rendered="{!loginFlag}">
+    		    USERNAME: <apex:inputText value="{!memberName}" />
+    		    PASSWORD: <apex:inputSecret value="{!password}" />
+    		    <apex:commandButton value="Login()" />
+	       	</apex:pageBlockSection>
+
+		    <apex:pageBlockSection title="Register" rendered="{!registerationFlag}">
+		    </apex:pageBlockSection>
+		</apex:pageBlock>
+		
+	</apex:form>
+</apex:page>

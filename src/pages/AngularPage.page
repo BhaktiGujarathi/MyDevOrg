@@ -1,0 +1,111 @@
+<apex:page controller="angularController" doctype="html-5.0">
+<apex:stylesheet value="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
+<apex:includeScript value="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js" />
+<apex:includeScript value="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" />
+<apex:includeScript value="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"/>
+
+<style>
+table.scrollTable thead, tbody tr {
+    display: table;
+    width:90%;
+    table-layout: fixed;
+}
+table.scrollTable tBody {
+    display: block;
+    height: 350px;
+    overflow-y: scroll;
+}
+table.scrollTable thead {
+    width: calc(100% - 16px);
+}
+</style>
+    <apex:outputPanel layout="block" styleClass="container" html-ng-app="AngularJsApp">
+        <apex:outputPanel layout="block" styleClass="container" html-ng-controller="angularJsAppController" >
+            <apex:outputPanel layout="block" styleClass="container">
+                <apex:form styleClass="form">
+                    <apex:outputLabel for="FilterTest" value="Enter Account Name to be searched">
+                        <apex:inputText id="filterText" html-ng-model="filterText"
+                         html-placeholder="{{placeholder}}"/>
+                    </apex:outputLabel>
+                </apex:form>
+            </apex:outputPanel>
+            <apex:outputPanel layout="block" styleClass="container">
+                <table class = "table table-responsive table-striped table-bordered scrolltable">
+                    <thead>
+                        <th><apex:outputlink value="#" html-ng-click="sortBy(1);" >
+                            Name
+                        </apex:outputLink></th>
+                        <th><apex:outputlink value="#" html-ng-click="sortBy(2);" >
+                            Account Number
+                        </apex:outputLink></th>
+                        <th><apex:outputlink value="#" html-ng-click="sortBy(3);" >
+                            Website
+                        </apex:outputLink></th>
+                        <th><apex:outputlink value="#" html-ng-click="sortBy(4);" >
+                            Phone
+                        </apex:outputLink></th>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat = "account in filteredAccounts = accountList | filter : filterBySelectedColumn | orderBy: orderByValue : reverse">
+                            <td>
+                                <apex:outputLink value="/{{account.accountId}}" target="_blank">
+                                     {{account.accountName}}
+                                </apex:outputLink></td>
+                            <td>{{account.accountNumber}}</td>
+                            <td>{{account.accountWebsite}}</td>
+                            <td>{{account.accountPhone}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </apex:outputPanel>
+         </apex:outputPanel>
+     </apex:outputPanel>
+<script>
+   var app = angular.module("AngularJsApp", []);
+        app.controller("angularJsAppController", ["$scope", function($scope) {
+            $scope.accountList = {!accountList};
+            $scope.reverse = false;
+            $scope.orderByValue = "accountName";
+            $scope.placeHolder = "AccountName";
+            
+            var currentColumn = 1;
+            
+            $scope.sortBy = function(columnIndex) {
+                if(currentColumn == columnIndex) {
+                    $scope.reverse = !$scope.reverse;
+                    $(".scrollTable > tbody").animate({scrollTop:0}, 700);
+                    return;
+                }
+                switch(columnIndex) {
+                    case 1: 
+                        $scope.orderByValue = "accountName";
+                        $scope.placeHolder = "Account Name";
+                        break;
+                    case 2:
+                        $scope.orderByValue = "accountNumber";
+                        $scope.placeHolder = "Account Number";
+                        break;
+                    case 3:
+                        $scope.orderByValue = "accountWebsite";
+                        $scope.placeHolder = "Account Website";
+                        break;
+                    case 4:
+                        $scope.orderByValue = "accountPhone";
+                        $scope.placeHolder = "Account Phone";
+                        break;
+                }
+                currentColumn = columnIndex;
+                $scope.reverse = false;
+                $(".scrollTable > tbody").animate({scrollTop : 0}, 700);
+                $scope.filterText = "";
+            }
+            
+            $scope.filterBySelectedcolumn = function(item) {
+               if(!$scope.isUndefined(filterText) && $scope.filterText != "") 
+                   return item[$scope.orderByValue].toLowerCase().indexOf($scope.filterText.toLowerCase()) > -1;
+               return true;
+            }
+        }
+        ]);
+</script>     
+</apex:page>

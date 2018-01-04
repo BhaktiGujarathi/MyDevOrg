@@ -1,0 +1,21 @@
+<!-- /****************************************************************************************** -->
+<!--  *  Title       : VF component to display a list of reponses in email reply   -->
+<!--  *  Component   : ResponseTableComponent -->
+<!--  *  Author      : Bhakti Gujarathi -->
+<!-- ******************************************************************************************/ -->
+<apex:component Controller="ResponseController" access="global">
+<!-- 	attribute for the component -->
+ <c:StyleSheet /> 
+	<apex:attribute name="QueryId" assignTo="{!idOfquery}"
+		description="The responses for this query are" type="Id" />
+<!--     repeat to iterate over the list of resposnses -->
+	<apex:repeat value="{!responseListToDisplay}" var="instance">
+		
+		<h2>Title : <apex:outputText >{!instance.Response_Title__c}</apex:outputText></h2>	
+	
+         <h3>Link : <apex:OutputLink >{!instance.Response_Link__c}</apex:OutputLink></h3>
+       
+          <h4>Description : <apex:OutputText >{!instance.Response_Description__c}</apex:OutputText></h4>
+        <br/><br/>
+	</apex:repeat>
+</apex:component>

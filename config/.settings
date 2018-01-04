@@ -1,0 +1,18 @@
+{
+    "projectName": "My dev",
+    "username": "bhakti.gujju@eternussolutions.com",
+    "id": "e5094e70-7297-11e7-9ce3-572741aeb6e4",
+    "namespace": "GoobleSearchApp",
+    "orgType": "developer",
+    "loginUrl": "https://login.salesforce.com/",
+    "instanceUrl": "https://ap2.salesforce.com",
+    "workspace": "C:\\Mavens_Workspace",
+    "subscription": [
+        "ApexClass",
+        "ApexComponent",
+        "ApexPage",
+        "ApexTrigger",
+        "CustomObject",
+        "StaticResource"
+    ]
+}

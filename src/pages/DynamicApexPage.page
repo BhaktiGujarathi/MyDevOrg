@@ -1,0 +1,122 @@
+<apex:page Controller="DynamicApexPageController">
+	<apex:form id="formId">
+        <apex:pageMessages id="errMsg"> </apex:pageMessages>
+		<apex:pageblock >
+			<apex:pageblockSection title="Select SObject type" columns="2">
+				<apex:actionRegion >
+				<apex:selectList size="1" multiselect="false"
+					value="{!SelectedObjectType}">
+					<apex:selectOption itemlabel="None" itemvalue="">
+					</apex:selectOption>
+					<apex:selectOptions value="{!objectTypes}" />
+					<apex:actionSupport event="onchange" action="{!generateobjFields}"
+						rerender="pb2,pb6" />
+				</apex:selectList>
+				</apex:actionRegion>
+				<apex:actionRegion >
+				    Search:<apex:inputText value="{!searchString}" />
+				</apex:actionRegion>
+			</apex:pageblockSection>
+		</apex:pageblock>
+
+		<apex:pageblock id="pb2">
+			<apex:pageBlockSection title="Related Fields" rendered="{!field}">
+				<apex:pageblocksection >
+					<apex:panelGrid columns="3" id="pnlGrd">
+						<apex:selectList size="6" multiselect="true"
+							value="{!fieldsForQuery}">
+							<apex:selectOptions value="{!objFields}" />
+						</apex:selectList>
+						<apex:panelGroup >
+							<apex:commandButton value=">>" action="{!selectFields}"
+								reRender="pnlGrd" />
+							<br />
+							<apex:commandButton value="<<" action="{!deSelectFields}"
+								reRender="pnlGrd" />
+						</apex:panelGroup>
+						<apex:selectList size="6" multiselect="true"
+							value="{!fieldsToUnselect}">
+							<apex:selectOptions value="{!selectedFields}" />
+						</apex:selectList>
+					</apex:panelGrid>
+				</apex:pageblocksection>
+			</apex:pageBlockSection>
+
+				<apex:pageblocksection rendered="{!field}">
+					<apex:selectList size="1" multiselect="false"
+						value="{!maxRecordsToDisp}">
+						<apex:selectOption itemvalue="500" itemlabel="500" />
+						<apex:selectOption itemvalue="1000" itemlabel="1000" />
+						<apex:selectOption itemvalue="5000" itemlabel="5000" />
+						<apex:selectOption itemvalue="50000" itemlabel="50000" />
+					</apex:selectList>
+					<apex:selectRadio value="{!sortBy}">
+						<apex:selectOption itemLabel="Ascending" itemValue="ASC" />
+						<apex:selectOption itemLabel="Descending" itemValue="DESC" />
+					</apex:selectRadio>
+				</apex:pageblocksection>
+
+				<apex:pageblocksection title="Query" rendered="{!field}">
+
+				<apex:commandButton value="Add" action="{!addNewObject}" />
+				
+					
+				</apex:pageblocksection>
+
+				<apex:pageblocksection title="Execute" rendered="{!field}">
+					<apex:commandButton value="Execute Query" action="{!executeQuery}"
+						reRender="pb6,errMsg">
+					</apex:commandButton>
+				</apex:pageblocksection>
+			</apex:pageblock>
+
+		<apex:pageBlock id="pb6">
+			<apex:pageblocksection title="Query result">
+			<apex:outputLabel value="{!query}"></apex:outputLabel>
+			</apex:pageblocksection>
+			<apex:pageblocksection title="result">
+				<apex:repeat value="{!searchResultsInstanceforresult}" var="wrapperInstance">
+					<apex:pageBlockTable value="{!wrapperInstance.sobjRecordList}"
+						var="recordinstance">
+						<apex:facet name="header"> {!wrapperInstance.sobjName}</apex:facet>
+						<apex:repeat value="{!wrapperInstance.strFieldList}" var="fieldname">
+							<apex:column >
+								<apex:facet name="header">
+                                      {!fieldname}
+                                </apex:facet>
+                                {!recordinstance[fieldname]}
+                           </apex:column>
+						</apex:repeat>
+					</apex:pageBlockTable>
+				</apex:repeat>
+			</apex:pageblocksection>
+		</apex:pageBlock>
+		<!--                 	<apex:pageBlockTable value="{!sList}" var="obj"> -->
+<!--                         <apex:repeat value="{!fList}" var="obj1"> -->
+<!--                             <apex:column value="{!obj[obj1]}"/> -->
+<!--                         </apex:repeat> -->
+<!--                     </apex:pageBlockTable> -->
+<!-- 				</apex:pageblocksection> -->
+<!-- 			</apex:pageBlock> -->
+
+<!--             <apex:pageBlock id="pb6">  -->
+<!--                <apex:pageblocksection title="Query result"> -->
+
+<!--                <apex:repeat value="{!ListRecords}" var="objectList"> -->
+<!--                     <apex:repeat value="{!objectList}" var="record"> -->
+<!--                         <apex:outputLabel value="{!record}" /> -->
+<!--                     </apex:repeat> -->
+<!--                </apex:repeat> -->
+
+<!--                    <apex:repeat value="{!listRecords}" var="objL"> -->
+<!--                    <apex:repeat value="{!objL}" var="obj"> -->
+<!--                    <apex:repeat value="{!fList}" var="obj1">  -->
+<!--                         <apex:repeat value="{!mapObjectToSelectedFields[obj]}" var="obj1"> -->
+<!--                             <apex:outputLabel value="{!obj[obj1]}"/> -->
+<!--                     </apex:repeat> -->
+<!--                     </apex:repeat> -->
+<!--                     </apex:repeat> -->
+               
+
+	</apex:form>
+</apex:page>
